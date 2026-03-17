@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IBBI Registered Valuers Directory</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #0f2540;
+      --navy-mid: #1a3a5c;
+      --navy-light: #2a5080;
+      --gold: #c9943a;
+      --gold-light: #f0c97a;
+      --bg: #f5f4f0;
+      --surface: #ffffff;
+      --text: #1a1a2e;
+      --text-muted: #5a6275;
+      --border: #e2ddd4;
+      --success-bg: #eaf5ec;
+      --success-text: #1f6e35;
+      --info-bg: #e8f0fb;
+      --info-text: #1a4a8a;
+      --radius: 10px;
+      --radius-lg: 16px;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── TOP BAR ── */
+    .topbar {
+      background: var(--navy);
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: rgba(255,255,255,0.55);
+    }
+    .topbar a { color: var(--gold-light); text-decoration: none; }
+    .topbar-links { display: flex; gap: 16px; }
+
+    /* ── HEADER ── */
+    .site-header {
+      background: var(--navy-mid);
+      padding: 20px 32px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      border-bottom: 3px solid var(--gold);
+    }
+    .logo-box {
+      width: 56px; height: 56px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-box svg { width: 32px; height: 32px; fill: var(--gold-light); }
+    .header-titles h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      color: #fff;
+      letter-spacing: 0.01em;
+    }
+    .header-titles p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      margin-top: 2px;
+    }
+    .header-badge {
+      margin-left: auto;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 12px;
+      color: var(--gold-light);
+    }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      background: #e8e4dc;
+      padding: 8px 32px;
+      font-size: 12px;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+    }
+    .breadcrumb a { color: var(--navy-mid); text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+
+    /* ── MAIN ── */
+    .main { max-width: 1100px; margin: 0 auto; padding: 28px 24px 60px; }
+
+    /* ── SEARCH PANEL ── */
+    .search-panel {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 12px rgba(15,37,64,0.07);
+    }
+    .search-panel-header {
+      background: linear-gradient(90deg, var(--navy) 0%, var(--navy-mid) 100%);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .search-panel-header h2 {
+      color: #fff;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .search-panel-header svg { width: 16px; height: 16px; fill: var(--gold-light); }
+
+    .search-body { padding: 24px; }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr auto;
+      gap: 14px;
+      align-items: end;
+    }
+    @media (max-width: 700px) {
+      .form-row { grid-template-columns: 1fr; }
+      .header-badge { display: none; }
+    }
+
+    .field label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .field input, .field select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      background: #fafaf8;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .field input:focus, .field select:focus { border-color: var(--navy-mid); background: #fff; }
+
+    .btn-search {
+      padding: 11px 28px;
+      background: var(--navy);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.18s, transform 0.1s;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-search:hover { background: var(--navy-light); }
+    .btn-search:active { transform: scale(0.97); }
+    .btn-search:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-reset {
+      padding: 11px 18px;
+      background: transparent;
+      color: var(--text-muted);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      cursor: pointer;
+      transition: border-color 0.18s;
+    }
+    .btn-reset:hover { border-color: #999; color: var(--text); }
+
+    .btn-row { display: flex; gap: 10px; align-items: center; }
+
+    /* ── RESULTS ── */
+    .results-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .results-count {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .results-count strong { color: var(--navy); }
+
+    /* TABLE */
+    .table-wrapper {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(15,37,64,0.06);
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+    thead { background: var(--navy); }
+    thead th {
+      padding: 12px 14px;
+      color: rgba(255,255,255,0.85);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      text-align: left;
+      white-space: nowrap;
+    }
+    tbody tr { border-bottom: 1px solid var(--border); transition: background 0.12s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #f7f5f0; }
+    tbody td { padding: 13px 14px; vertical-align: top; }
+
+    .td-sr { color: var(--text-muted); font-size: 12px; }
+    .td-reg { font-family: monospace; font-size: 12px; color: var(--navy-mid); font-weight: 600; white-space: nowrap; }
+    .td-name { font-weight: 600; color: var(--text); }
+    .td-addr { color: var(--text-muted); font-size: 12.5px; line-height: 1.5; }
+    .td-email a { color: var(--navy-light); text-decoration: none; font-size: 12.5px; }
+    .td-email a:hover { text-decoration: underline; }
+    .td-rvo { font-size: 12px; }
+    .rvo-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      background: var(--info-bg);
+      color: var(--info-text);
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .asset-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      background: var(--success-bg);
+      color: var(--success-text);
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .td-date { font-size: 12.5px; color: var(--text-muted); white-space: nowrap; }
+
+    /* STATES */
+    .state-box {
+      text-align: center;
+      padding: 48px 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+    }
+    .state-box .icon { font-size: 36px; margin-bottom: 12px; }
+    .state-box p { color: var(--text-muted); font-size: 14px; line-height: 1.6; }
+    .state-box strong { color: var(--text); }
+
+    .loading-dots { display: inline-flex; gap: 5px; margin-bottom: 12px; }
+    .loading-dots span {
+      width: 8px; height: 8px;
+      background: var(--navy-mid);
+      border-radius: 50%;
+      animation: ld 1.2s infinite;
+    }
+    .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes ld { 0%,80%,100%{transform:scale(0.5);opacity:0.3} 40%{transform:scale(1);opacity:1} }
+
+    .error-box {
+      background: #fff4f4;
+      border: 1px solid #f5c6c6;
+      border-radius: var(--radius-lg);
+      padding: 20px 24px;
+      color: #8b1a1a;
+      font-size: 14px;
+    }
+
+    /* DISCLAIMER */
+    .disclaimer {
+      margin-top: 28px;
+      padding: 14px 20px;
+      background: #fffbf0;
+      border: 1px solid #e8d9a0;
+      border-radius: var(--radius);
+      font-size: 12px;
+      color: #7a6020;
+      line-height: 1.6;
+    }
+    .disclaimer strong { color: #5a4010; }
+
+    /* FOOTER */
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      padding: 18px;
+      font-size: 12px;
+      margin-top: 40px;
+    }
+    footer a { color: var(--gold-light); }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <span>Government of India &nbsp;|&nbsp; <a href="https://ibbi.gov.in" target="_blank">ibbi.gov.in</a></span>
+  <div class="topbar-links">
+    <a href="#">IP/RV Login</a>
+    <a href="#">Grievances</a>
+    <a href="#">Help</a>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="logo-box">
+    <svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>
+  </div>
+  <div class="header-titles">
+    <h1>Insolvency and Bankruptcy Board of India</h1>
+    <p>भारतीय दिवाला और शोधन-अक्षमता बोर्ड &nbsp;|&nbsp; Registered Valuers Directory</p>
+  </div>
+  <div class="header-badge">Service Provider Portal</div>
+</header>
+
+<div class="breadcrumb">
+  <a href="#">Home</a> &rsaquo; <a href="#">Service Provider</a> &rsaquo; <strong>Registered Valuers (RVs)</strong>
+</div>
+
+<main class="main">
+
+  <div class="search-panel">
+    <div class="search-panel-header">
+      <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      <h2>Search Registered Valuers</h2>
+    </div>
+    <div class="search-body">
+      <div class="form-row">
+        <div class="field">
+          <label>Registration No.</label>
+          <input type="text" id="regNo" placeholder="e.g. IBBI/RV/02/2018/10179" />
+        </div>
+        <div class="field">
+          <label>Name of RV</label>
+          <input type="text" id="rvName" placeholder="Enter valuer name" />
+        </div>
+        <div class="field">
+          <label>Location / City *</label>
+          <input type="text" id="location" placeholder="e.g. Mumbai, Delhi, Pune" />
+        </div>
+        <div class="field">
+          <label>Asset Class *</label>
+          <select id="assetClass">
+            <option value="">-- Select Asset Class --</option>
+            <option value="Land and Building" selected>Land and Building</option>
+            <option value="Plant and Machinery">Plant and Machinery</option>
+            <option value="Securities or Financial Assets">Securities or Financial Assets</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-top: 16px;" class="btn-row">
+        <button class="btn-search" id="applyBtn" onclick="doSearch()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5z"/></svg>
+          Apply
+        </button>
+        <button class="btn-reset" onclick="doReset()">Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="resultsArea">
+    <div class="state-box">
+      <div class="icon">🏛️</div>
+      <p><strong>Search for Registered Valuers</strong><br>Enter a city/location and select an asset class above, then click <strong>Apply</strong> to view results.</p>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    <strong>⚠ Disclaimer:</strong> This portal uses AI to generate illustrative data in the format of IBBI's Registered Valuers directory. Results are for demonstration purposes only. For authoritative and verified data, please visit the official IBBI website at <a href="https://ibbi.gov.in/service-provider/rvs" target="_blank" style="color:#7a5010;">ibbi.gov.in</a>.
+  </div>
+
+</main>
+
+<footer>
+  &copy; 2025 Insolvency and Bankruptcy Board of India &nbsp;|&nbsp; Designed &amp; Developed by IBBI &nbsp;|&nbsp; Hosted by National Informatics Centre (NIC) &nbsp;|&nbsp;
+  <a href="https://ibbi.gov.in" target="_blank">ibbi.gov.in</a>
+</footer>
+
+<script>
+  const API_URL = "https://api.anthropic.com/v1/messages";
+
+  async function doSearch() {
+    const location = document.getElementById('location').value.trim();
+    const assetClass = document.getElementById('assetClass').value;
+    const regNo = document.getElementById('regNo').value.trim();
+    const rvName = document.getElementById('rvName').value.trim();
+    const area = document.getElementById('resultsArea');
+    const btn = document.getElementById('applyBtn');
+
+    if (!location && !regNo && !rvName) {
+      area.innerHTML = `<div class="error-box">⚠ Please enter at least a City/Location or a Registration Number to search.</div>`;
+      return;
+    }
+
+    btn.disabled = true;
+    area.innerHTML = `
+      <div class="state-box">
+        <div class="loading-dots"><span></span><span></span><span></span></div>
+        <p>Searching IBBI database for registered valuers…</p>
+      </div>`;
+
+    const filters = [];
+    if (location) filters.push(`City/Location: ${location}`);
+    if (assetClass) filters.push(`Asset Class: ${assetClass}`);
+    if (regNo) filters.push(`Registration Number: ${regNo}`);
+    if (rvName) filters.push(`Valuer Name contains: ${rvName}`);
+
+    const prompt = `You are simulating India's IBBI (Insolvency and Bankruptcy Board of India) Registered Valuers database.
+
+Search filters provided by user:
+${filters.join('\n')}
+
+Generate realistic registered valuer records matching these filters. Follow these rules strictly:
+- Registration numbers format: IBBI/RV/02/YYYY/NNNNN (for Land and Building, code 02), IBBI/RV/10/YYYY/NNNNN (for Plant and Machinery, code 10), IBBI/RV/06/YYYY/NNNNN (for Securities, code 06)
+- RVO must be one of: "IOV Registered Valuers Foundation", "ICAI Registered Valuers Organisation", "ICSI Registered Valuers Organisation", "NACEN RVO"
+- Dates of registration: between 2018 and 2024, format "DD Mon, YYYY"
+- Use real Indian names, real street addresses for the given city
+- Generate between 5 and 8 records
+- Email format: firstname_lastname[at]domain[dot]com (use common Indian email domains)
+
+Return ONLY valid JSON, no markdown, no preamble, no explanation:
+{
+  "filters": { "city": "...", "asset_class": "...", "reg_no": "...", "rv_name": "..." },
+  "total_count": <number between 12 and 80>,
+  "displayed": <number of records shown>,
+  "records": [
+    {
+      "sr_no": 1,
+      "reg_no": "IBBI/RV/XX/YYYY/NNNNN",
+      "name": "Mr./Ms. Full Name",
+      "address": "Door No., Street, Area, City, State - Pincode",
+      "email": "email[at]domain[dot]com",
+      "rvo": "RVO name",
+      "date_of_registration": "DD Mon, YYYY",
+      "asset_class": "${assetClass || 'Land and Building'}"
+    }
+  ]
+}`;
+
+    try {
+      const resp = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-20250514",
+          max_tokens: 1500,
+          messages: [{ role: "user", content: prompt }]
+        })
+      });
+
+      const data = await resp.json();
+      const text = data.content.map(i => i.text || "").join("");
+      const clean = text.replace(/```json|```/g, "").trim();
+      const parsed = JSON.parse(clean);
+      renderTable(parsed);
+    } catch(e) {
+      area.innerHTML = `<div class="error-box">⚠ Unable to fetch results at this time. Please check your connection and try again.<br><small style="opacity:0.7;">${e.message}</small></div>`;
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  function doReset() {
+    document.getElementById('regNo').value = '';
+    document.getElementById('rvName').value = '';
+    document.getElementById('location').value = '';
+    document.getElementById('assetClass').value = 'Land and Building';
+    document.getElementById('resultsArea').innerHTML = `
+      <div class="state-box">
+        <div class="icon">🏛️</div>
+        <p><strong>Search for Registered Valuers</strong><br>Enter a city/location and select an asset class above, then click <strong>Apply</strong> to view results.</p>
+      </div>`;
+  }
+
+  function renderTable(data) {
+    const area = document.getElementById('resultsArea');
+    if (!data.records || data.records.length === 0) {
+      area.innerHTML = `<div class="state-box"><div class="icon">🔍</div><p>No registered valuers found matching your search criteria.</p></div>`;
+      return;
+    }
+
+    const cityLabel = data.filters.city ? `<strong>${data.filters.city}</strong>` : 'all locations';
+    const assetLabel = data.filters.asset_class ? `<strong>${data.filters.asset_class}</strong>` : 'all asset classes';
+
+    let html = `
+      <div class="results-header">
+        <div class="results-count">
+          Showing <strong>${data.displayed}</strong> of <strong>${data.total_count}</strong> registered valuers
+          in ${cityLabel} for ${assetLabel}
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Sr. No.</th>
+              <th>Registration No.</th>
+              <th>Name of RV</th>
+              <th>Address of RV</th>
+              <th>Email of RV</th>
+              <th>RVO Enrolled With</th>
+              <th>Date of Registration</th>
+              <th>Asset Class</th>
+              <th>Remarks</th>
+            </tr>
+          </thead>
+          <tbody>`;
+
+    data.records.forEach(r => {
+      html += `
+        <tr>
+          <td class="td-sr">${r.sr_no}</td>
+          <td class="td-reg">${r.reg_no}</td>
+          <td class="td-name">${r.name}</td>
+          <td class="td-addr">${r.address}</td>
+          <td class="td-email"><a href="mailto:${r.email.replace('[at]','@').replace('[dot]','.')}">${r.email}</a></td>
+          <td class="td-rvo"><span class="rvo-badge">${r.rvo}</span></td>
+          <td class="td-date">${r.date_of_registration}</td>
+          <td><span class="asset-badge">${r.asset_class}</span></td>
+          <td class="td-sr">—</td>
+        </tr>`;
+    });
+
+    html += `</tbody></table></div>`;
+    area.innerHTML = html;
+  }
+
+  document.getElementById('location').addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
+</script>
+</body>
+</html>
